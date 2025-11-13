@@ -13,7 +13,7 @@ An MCP (Model Context Protocol) server that provides email management capabiliti
 
 - Python 3.8+
 - Gmail account with App Password enabled
-- Anthropic API key (for AI-powered draft replies)
+- Claude Code Desktop (for AI-powered draft replies)
 
 ## Setup
 
@@ -39,7 +39,6 @@ pip install -r requirements.txt
 ```bash
 export EMAIL_USER="your-email@gmail.com"
 export EMAIL_APP_PASSWORD="your-app-password"
-export ANTHROPIC_API_KEY="your-anthropic-api-key"
 ```
 
 Or create a `.env` file:
@@ -47,7 +46,6 @@ Or create a `.env` file:
 ```env
 EMAIL_USER=your-email@gmail.com
 EMAIL_APP_PASSWORD=your-app-password
-ANTHROPIC_API_KEY=your-anthropic-api-key
 ```
 
 ### 4. Configure MCP Client
@@ -62,8 +60,7 @@ Add to your MCP client configuration (e.g., `claude_desktop_config.json`):
       "args": ["/path/to/mcp-servers/email/email_server.py"],
       "env": {
         "EMAIL_USER": "your-email@gmail.com",
-        "EMAIL_APP_PASSWORD": "your-app-password",
-        "ANTHROPIC_API_KEY": "your-anthropic-api-key"
+        "EMAIL_APP_PASSWORD": "your-app-password"
       }
     }
   }
@@ -169,7 +166,6 @@ Send an email immediately.
 
 - Never commit your `.env` file or credentials to version control
 - Use Gmail App Passwords instead of your main password
-- Keep your Anthropic API key secure
 - Consider using a secrets manager for production deployments
 
 ## Troubleshooting
