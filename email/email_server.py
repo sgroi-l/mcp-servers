@@ -113,11 +113,7 @@ async def get_unread_emails(max_emails: int = 10):
 
 async def generate_draft_reply(email_content: dict, tone: str = "professional", additional_context: str = ""):
     """Generate an AI-powered draft reply using Claude"""
-    anthropic_api_key = os.environ.get('ANTHROPIC_API_KEY')
-    if not anthropic_api_key:
-        raise ValueError("ANTHROPIC_API_KEY environment variable is required")
-
-    client = anthropic.Anthropic(api_key=anthropic_api_key)
+    client = anthropic.Anthropic()
 
     # Construct the prompt
     prompt = f"""You are helping draft a reply to an email. Generate a {tone} response.
