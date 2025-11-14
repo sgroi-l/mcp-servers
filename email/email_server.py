@@ -131,7 +131,7 @@ Body:
 Please generate a clear, concise, and {tone} reply to this email. Only provide the email body text, without any subject line or greetings like "Dear [Name]" unless specifically needed for the context."""
 
     message = client.messages.create(
-        model="claude-3-5-sonnet-20241022",
+        model="claude-haiku-4-5-20251001",
         max_tokens=1024,
         messages=[
             {"role": "user", "content": prompt}
@@ -213,22 +213,20 @@ async def handle_list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "email_from": {"type": "string", "description": "The sender of the email to reply to"},
-                    "email_subject": {"type": "string", "description": "The subject of the email to reply to"},
+                    "email_from": {"type": "string", "description": "The sender of the email to reply to (optional)"},
+                    "email_subject": {"type": "string", "description": "The subject of the email to reply to (optional)"},
                     "email_body": {"type": "string", "description": "The body of the email to reply to"},
-                    "email_date": {"type": "string", "description": "The date of the email to reply to"},
+                    "email_date": {"type": "string", "description": "The date of the email to reply to (optional)"},
                     "tone": {
                         "type": "string",
-                        "description": "The tone of the reply (e.g., professional, casual, friendly)",
-                        "default": "professional"
+                        "description": "The tone of the reply (e.g., professional, casual, friendly, default: professional)",
                     },
                     "additional_context": {
                         "type": "string",
-                        "description": "Additional context or instructions for the reply",
-                        "default": ""
+                        "description": "Additional context or instructions for the reply (optional)",
                     },
                 },
-                "required": ["email_from", "email_subject", "email_body", "email_date"],
+                "required": ["email_body"],
             },
         ),
         types.Tool(
@@ -282,10 +280,10 @@ async def handle_call_tool(name: str, arguments: dict) -> list[types.TextContent
 
     elif name == "generate_draft_reply":
         email_content = {
-            'from': arguments['email_from'],
-            'subject': arguments['email_subject'],
+            'from': arguments.get('email_from', 'Unknown'),
+            'subject': arguments.get('email_subject', 'No subject'),
             'body': arguments['email_body'],
-            'date': arguments['email_date']
+            'date': arguments.get('email_date', '')
         }
         tone = arguments.get('tone', 'professional')
         additional_context = arguments.get('additional_context', '')
